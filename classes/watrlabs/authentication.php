@@ -223,7 +223,14 @@ class authentication {
                 'expiration' => $expiration
             );
             $insertId = $db->table('sessions')->insert($data);
-            setcookie(".ROBLOSECURITY", $session, $expiration, '/', '.' . $_ENV["APP_DOMAIN"]);
+            setcookie(".ROBLOSECURITY", $session, [
+            'expires' => $expiration,
+            'path' => '/',
+            'domain' => '.' . $_ENV["APP_DOMAIN"],
+            'secure' => true,
+            'httponly' => true,
+            'samesite' => 'Lax'
+        ]);
         }
         
         return $session;
