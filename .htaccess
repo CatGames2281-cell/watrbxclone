@@ -1,11 +1,15 @@
 RewriteEngine On
 RewriteBase /
 
-# 1. Якщо файл або папка існують фізично - просто відкриваємо їх
+# Якщо це запит до реального файлу або папки - не чіпаємо його
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# 2. Якщо файлу немає - відправляємо в index.php
-# Додаємо [L], щоб це було останнє правило
+# Додатковий захист: якщо запит закінчується на .css, .js, .png і т.д., 
+# але файл не знайдено - НЕ відправляємо в index.php (щоб не було каші)
+RewriteCond %{REQUEST_URI} \.(css|js|png|jpg|jpeg|gif|ico|svg)$ [NC]
+RewriteRule ^ - [R=404,L]
+
+# Все інше - в index.php
 RewriteRule ^ index.php [L]
