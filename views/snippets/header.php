@@ -92,11 +92,9 @@ if(isset($_SERVER['HTTP_USER_AGENT'])){
     <meta name="google-site-verification" content="KjufnQUaDv5nXJogvDMey4G-Kb7ceUVxTdzcMaP9pCY" />
     
     <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
-
 <?php 
     if(isset($cssfiles) && is_array($cssfiles)) { 
         foreach ($cssfiles as $url) { 
-            // Витягуємо назву файлу з кривого посилання (наприклад, з path=watrbx.css)
             $filename = "";
             $parts = parse_url($url);
             if (isset($parts['query'])) {
@@ -106,14 +104,13 @@ if(isset($_SERVER['HTTP_USER_AGENT'])){
                 $filename = basename($url);
             }
 
-            // Визначаємо шлях: якщо файл системний (page___), він у Pages
+            // Шлях до твого сховища на Render
             if (strpos($filename, 'page___') === 0) {
-                $finalPath = "/CSS/Pages/" . $filename;
+                $finalPath = "/storage/css/Pages/" . $filename;
             } else {
-                $finalPath = "/CSS/" . $filename;
+                $finalPath = "/storage/css/" . $filename;
             }
 
-            // Виводимо пряме посилання на файл, ігноруючи FetchCSS
             echo '<link rel="stylesheet" href="' . $finalPath . '">' . PHP_EOL;
         } 
     } 
