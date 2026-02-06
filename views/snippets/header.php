@@ -99,10 +99,31 @@ if(isset($_SERVER['HTTP_USER_AGENT'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php if(isset($cssfiles)) { foreach ($cssfiles as $url) { ?>
     <link rel="stylesheet" href="<?= $url ?>">
-    <?php }}  if(isset($jsfiles)) { foreach ($jsfiles as $url) { ?>
-    <script type="text/javascript" src="<?= $url ?>"></script>
-    <?php }} ?>
+<?php 
+    if(isset($cssfiles) && is_array($cssfiles)) { 
+        foreach ($cssfiles as $url) { 
+            // Витягуємо назву файлу з кривого посилання (наприклад, з path=watrbx.css)
+            $filename = "";
+            $parts = parse_url($url);
+            if (isset($parts['query'])) {
+                parse_str($parts['query'], $query);
+                $filename = $query['path'] ?? basename($url);
+            } else {
+                $filename = basename($url);
+            }
 
+            // Визначаємо шлях: якщо файл системний (page___), він у Pages
+            if (strpos($filename, 'page___') === 0) {
+                $finalPath = "/CSS/Pages/" . $filename;
+            } else {
+                $finalPath = "/CSS/" . $filename;
+            }
+
+            // Виводимо пряме посилання на файл, ігноруючи FetchCSS
+            echo '<link rel="stylesheet" href="' . $finalPath . '">' . PHP_EOL;
+        } 
+    } 
+    ?>
     <style>
         .original-image {
             height: 100px;
