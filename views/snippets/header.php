@@ -8,12 +8,29 @@ $auth = new authentication();
 $sitefunctions = new sitefunctions();
 global $currentuser, $db;
 
+//$userinfo = $currentuser;
+//$pendingfq = count($friends->get_requests($userinfo->id));
+//$msgcount = $db->table("messages")
+  //  ->where("userto", $userinfo->id)
+    //->where("hasread", 0)
+    //->count();
+//$count = $pendingfq + $msgcount;
 $userinfo = $currentuser;
-$pendingfq = count($friends->get_requests($userinfo->id));
-$msgcount = $db->table("messages")
-    ->where("userto", $userinfo->id)
-    ->where("hasread", 0)
-    ->count();
+// Додаємо перевірку, чи існує ID та чи повернула функція масив
+$pending_requests = (isset($userinfo->id)) ? $friends->get_requests($userinfo->id) : [];
+$pendingfq = is_array($pending_requests) ? count($pending_requests) : 0;
+
+$msgcount = 0;
+if(isset($userinfo->id)) {
+    try {
+        $msgcount = $db->table("messages")
+            ->where("userto", $userinfo->id)
+            ->where("hasread", 0)
+            ->count();
+    } catch (Exception $e) {
+        $msgcount = 0; // Якщо таблиці messages немає, просто ставимо 0
+    }
+}
 $count = $pendingfq + $msgcount;
 
 $ismobile = false;
