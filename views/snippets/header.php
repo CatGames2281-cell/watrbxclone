@@ -40,7 +40,6 @@ if(isset($_SERVER['HTTP_USER_AGENT'])){
 <html>
 <!--<![endif]-->
 <head>
-	<base href="/">
     <!-- MachineID: WEB102 -->
     <title><?=$config["title"] ?? "Untitled Page" ?> - <?=$_ENV["APP_NAME"]?></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,requiresActiveX=true" />
@@ -62,24 +61,14 @@ if(isset($_SERVER['HTTP_USER_AGENT'])){
     
     <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
 
-<?php if(isset($metatags)) { foreach ($metatags as $property => $content) { ?>
+    <?php if(isset($metatags)) { foreach ($metatags as $property => $content) { ?>
     <meta <?= substr($property, 0, 2) == "og" ? "property" : "name" ?>="<?= $property ?>" content="<?= $content ?>">
     <?php } } ?>	
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <?php if(isset($CSSfiles)) { foreach ($CSSfiles as $url) { 
-        // Фікс для шляхів CSS: великі літери та корінь /
-        if (strpos($url, 'Pages/') !== false) {
-            $path = "/CSS/" . $url;
-        } else {
-            $path = "/CSS/" . basename($url);
-        }
-    ?>
-    <link rel="stylesheet" href="<?= $path ?>">
-    <?php }} ?>
-
-    <?php if(isset($jsfiles)) { foreach ($jsfiles as $url) { ?>
-    <script type="text/javascript" src="/js/<?= basename($url) ?>"></script>
+    <?php if(isset($CSSfiles)) { foreach ($CSSfiles as $url) { ?>
+    <link rel="stylesheet" href="<?= $url ?>">
+    <?php }}  if(isset($jsfiles)) { foreach ($jsfiles as $url) { ?>
+    <script type="text/javascript" src="<?= $url ?>"></script>
     <?php }} ?>
 
     <style>
