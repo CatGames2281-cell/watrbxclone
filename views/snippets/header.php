@@ -93,11 +93,6 @@ if(isset($_SERVER['HTTP_USER_AGENT'])){
     
     <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
 
-<?php if(isset($metatags)) { foreach ($metatags as $property => $content) { ?>
-    <meta <?= substr($property, 0, 2) == "og" ? "property" : "name" ?>="<?= $property ?>" content="<?= $content ?>">
-    <?php } } ?>    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php 
     if(isset($cssfiles) && is_array($cssfiles)) { 
         foreach ($cssfiles as $url) { 
             $filename = "";
