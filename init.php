@@ -38,6 +38,20 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 try {
+    $dotenv->load();
+} catch (Exception $e) {
+    // Якщо файл .env не знайдено або він недоступний, ми побачимо це в логах Render
+    error_log("RENDER DEBUG: Could not load .env file! Error: " . $e->getMessage());
+}
+
+// ПЕРЕВІРКА КОНКРЕТНОЇ ЗМІННОЇ
+if (!isset($_ENV["DB_HOST"])) {
+    error_log("RENDER DEBUG: .env loaded, but DB_HOST is missing. Check your Secret File content.");
+} else {
+    error_log("RENDER DEBUG: .env is working! DB_HOST is: " . $_ENV["DB_HOST"]);
+}
+
+try {
 
     $credentials = new Aws\Credentials\Credentials($_ENV["R2_KEY_ID"], $_ENV["R2_SECRET"]);
 
