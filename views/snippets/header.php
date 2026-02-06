@@ -41,6 +41,21 @@ if(isset($_SERVER['HTTP_USER_AGENT'])){
 <!--<![endif]-->
 <head>
     <!-- MachineID: WEB102 -->
+	<base href="/">
+    <script>
+        // Перевірка завантаження CSS
+        window.addEventListener('error', function(e) {
+            if (e.target.tagName === 'LINK') {
+                console.error('❌ Помилка завантаження CSS: ' + e.target.href);
+            }
+            if (e.target.tagName === 'SCRIPT') {
+                console.error('❌ Помилка завантаження JS: ' + e.target.src);
+            }
+        }, true);
+
+        console.log('✅ Поточна адреса сторінки:', window.location.href);
+        console.log('✅ Базовий шлях (Base URL):', document.baseURI);
+	</script>
     <title><?=$config["title"] ?? "Untitled Page" ?> - <?=$_ENV["APP_NAME"]?></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,requiresActiveX=true" />
     <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,700" rel="stylesheet" type="text/css">
