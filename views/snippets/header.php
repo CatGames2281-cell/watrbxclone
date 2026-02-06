@@ -40,6 +40,7 @@ if(isset($_SERVER['HTTP_USER_AGENT'])){
 <html>
 <!--<![endif]-->
 <head>
+	<base href="/">
     <!-- MachineID: WEB102 -->
     <title><?=$config["title"] ?? "Untitled Page" ?> - <?=$_ENV["APP_NAME"]?></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,requiresActiveX=true" />
