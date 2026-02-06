@@ -1,15 +1,21 @@
 RewriteEngine On
 RewriteBase /
 
-# Якщо це запит до реального файлу або папки - не чіпаємо його
+# 1. Спеціальне правило для FetchCSS (має бути ПЕРЕД блокуванням розширень)
+# Це дозволить запитам типу /CSS/Base/CSS/FetchCSS проходити в index.php
+RewriteCond %{REQUEST_URI} ^/CSS/Base/CSS/FetchCSS [NC]
+RewriteRule ^ index.php [L]
+
+# 2. Якщо це реальний файл або папка - дозволяємо доступ
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# Додатковий захист: якщо запит закінчується на .css, .js, .png і т.д., 
-# але файл не знайдено - НЕ відправляємо в index.php (щоб не було каші)
+# 3. Захист: якщо це ПРЯМИЙ файл (наприклад, styles.css), якого немає - 404
+# Ми додаємо умову, щоб це не стосувалося динамічних шляхів FetchCSS
 RewriteCond %{REQUEST_URI} \.(css|js|png|jpg|jpeg|gif|ico|svg)$ [NC]
+RewriteCond %{REQUEST_URI} !FetchCSS [NC]
 RewriteRule ^ - [R=404,L]
 
-# Все інше - в index.php
+# 4. Все інше (маршрути /home, /catalog і т.д.) - в index.php
 RewriteRule ^ index.php [L]
