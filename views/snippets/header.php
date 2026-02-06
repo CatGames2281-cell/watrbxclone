@@ -43,7 +43,7 @@ if(isset($_SERVER['HTTP_USER_AGENT'])){
     <!-- MachineID: WEB102 -->
     <title><?=$config["title"] ?? "Untitled Page" ?> - <?=$_ENV["APP_NAME"]?></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,requiresActiveX=true" />
-    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,700" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/CSS?family=Source+Sans+Pro:300,400,500,600,700" rel="stylesheet" type="text/CSS">
     <meta charset="UTF-8">
     
     <style>
@@ -65,7 +65,7 @@ if(isset($_SERVER['HTTP_USER_AGENT'])){
     <meta <?= substr($property, 0, 2) == "og" ? "property" : "name" ?>="<?= $property ?>" content="<?= $content ?>">
     <?php } } ?>	
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php if(isset($cssfiles)) { foreach ($cssfiles as $url) { ?>
+    <?php if(isset($CSSfiles)) { foreach ($CSSfiles as $url) { ?>
     <link rel="stylesheet" href="<?= $url ?>">
     <?php }}  if(isset($jsfiles)) { foreach ($jsfiles as $url) { ?>
     <script type="text/javascript" src="<?= $url ?>"></script>
